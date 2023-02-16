@@ -1,0 +1,25 @@
+{{> post-info post}}
+
+{{> comments post.comments}}
+
+{{#if loggedIn}}
+<div class="card">
+  <div class="card-body">
+      <form id="new-comment-form">
+        <h3> Comment </h3>
+        <div class="form-input">
+          <textarea name="comment-body"></textarea>
+        </div>
+        <div>
+          <button class="btn" type="submit"> Submit</button>
+        </div>
+      </form>
+  </div>
+</div>
+{{/if}}
+
+
+
+{{#if loggedIn}}
+<script src="/js/comment.js"></script>
+{{/if}}

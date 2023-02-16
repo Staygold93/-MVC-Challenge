@@ -1,0 +1,36 @@
+<article>
+  <a href="/dashboard"> &larr; Back to dashboard</a>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-header">
+        Create New Post
+      </h2>
+      <form id="new-post-form">
+        <div>
+          <label for="post-title">Title</label>
+          <input name="post-title" type="text" id="post-title" />
+        </div>
+      <div>
+        <textarea name="post-body"></textarea>
+      </div>
+        <button class="btn" type="submit">Save post</button>
+      </form>
+    </div>
+  </div>
+</article>
+
+{{#if posts.length}}
+<section>
+  <h2>Your Posts</h2>
+  <ol>
+    {{#each posts as |post|}}
+    <li>
+      {{> post-info post}}
+      <a href="/dashboard/edit/{{post.id}}" class="edit-link">Edit post</a>
+    </li>
+    {{/each}}
+  </ol>
+</section>
+{{/if}}
+
+<script src="/js/new.js"></script>
