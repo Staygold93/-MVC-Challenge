@@ -64,7 +64,7 @@ router.get("/post/:id", async (req, res) => {
         return;
       }
       const post = dbPostData.get({ plain: true });
-      res.render("single-post", { post, loggedIn: req.session.loggedIn });
+      res.render("singlePost", { post, loggedIn: req.session.loggedIn });
     })
     .catch((err) => {
       console.log(err);
@@ -81,13 +81,13 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.get("/signup", (req, res) => {
+router.get("/signUp", (req, res) => {
   if (req.session.loggedIn) {
     res.redirect("/");
     return;
   }
 
-  res.render("signup");
+  res.render("signUp");
 });
 
 module.exports = router;

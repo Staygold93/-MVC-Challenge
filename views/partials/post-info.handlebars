@@ -1,0 +1,16 @@
+<article>
+  <div class="card">
+    <div class="card-body">
+      <a href="/post/{{id}}">
+        <h2 class="card-header">{{title}}</h2>
+        <h5>Posted by:
+          {{user.username}}
+          on
+          {{format_date created_at}}
+        </h5>
+      </a>
+
+        <p>{{body}}</p>
+    </div>
+  </div>
+</article>
