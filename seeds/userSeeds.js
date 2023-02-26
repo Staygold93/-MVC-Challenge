@@ -1,25 +1,25 @@
-const { User } = require("../models");
-const bcrypt = require("bcrypt");
+const { User } = require('../models');
+const bcrypt = require('bcrypt');
 
-const userdata = [
+const userData = [
   {
-    username: "aziza",
-    password: bcrypt.hashSync("password123", 8),
+    username: 'Sal',
+    password: bcrypt.hashSync('password12345', 8),
   },
   {
-    username: "bongani",
-    password: bcrypt.hashSync("password213", 8),
+    username: 'Lernantino',
+    password: bcrypt.hashSync('password12345', 8),
   },
   {
-    username: "cecile",
-    password: bcrypt.hashSync("password312", 8),
-  },
-  {
-    username: "donnavon",
-    password: bcrypt.hashSync("password321", 8),
+    username: 'Amiko',
+    password: bcrypt.hashSync('password12345', 8),
   },
 ];
 
-const seedUsers = () => User.bulkCreate(userdata, { individualHooks: true });
+const seedUsers = async () =>
+  await User.bulkCreate(userData, {
+    individualHooks: true,
+    returning: true,
+  });
 
 module.exports = seedUsers;

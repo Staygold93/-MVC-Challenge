@@ -1,23 +1,27 @@
-const seedUsers = require("./userSeeds");
-const seedPosts = require("./postSeeds");
-const seedComments = require("./commentSeeds");
+const sequelize = require('../config/connection');
 
-const sequelize = require("../config/connection");
+const seedUsers = require('./userSeeds');
+const seedPosts = require('./postSeeds');
+const seedComments = require('./commentSeeds');
 
-const seedAll = async () => {
-  await sequelize.sync({ force: true });
-  console.log("\n----- DATABASE SYNCED -----\n");
+const seedDatabase = async () => {
+    console.log("--------SYNCING DATABASE--------");
+    await sequelize.sync({ force: true });
+    console.log("--------DATABASE SYNCED---------");
 
-  await seedUsers();
-  console.log("\n----- USERS SEEDED -----\n");
+    console.log("--------SEEDING USERS--------");
+    await seedUsers();
+    console.log("--------USERS SEEDED---------");
 
-  await seedPosts();
-  console.log("\n----- POSTS SEEDED -----\n");
+    console.log("--------SEEDING POSTS--------");
+    await seedPosts();
+    console.log("--------POSTS SEEDED---------");
 
-  await seedComments();
-  console.log("\n----- COMMENTS SEEDED -----\n");
+    console.log("--------SEEDING COMMENTS--------");
+    await seedComments();
+    console.log("--------COMMENTS SEEDED---------");
 
-  process.exit(0);
+    process.exit(0);
 };
 
-seedAll();
+seedDatabase();

@@ -2,22 +2,21 @@ const editFormHandler = async function(event) {
     event.preventDefault();
 
     
-    const titleEl = document.getElementById('post-title');
-    const bodyEl = document.getElementById('post-body');
-    const postId = document.getElementById('post-id')
+    const title = document.querySelector('input[name="post-title"]').value;
+    const body = document.querySelector('input[name="post-body"]').value;
 
-    fetch("/api/post/" + postId.value, {
+    fetch(`/api/post/${id}`, {
         method: "put", 
         body: JSON.stringify({
-            title: titleEl.value,
-            body: bodyEl.value
+            title,
+            body,
         }),
         headers: { "Content-Type": "application/json"}
     })
-        .then(function() {
+       
             document.location.replace("/dashboard");
-        })
-        .catch(err => console.log(err))
+        
+        
 }
 
 document.querySelector("#edit-post-form").addEventListener("submit", editFormHandler);

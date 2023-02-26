@@ -1,29 +1,27 @@
-const router = require("express").Router();
-const { Post, Comment, User } = require("../../models/");
-const withAuth = require("../../utils/auth");
+const router = require('express').Router();
+const { Post, Comment, User } = require('../../models/');
+const withAuth = require('../../utils/auth');
 
-//GET api/posts
-router.get("/", (req, res) => {
- 
-    Post.findAll({
-    attributes: ["id", "title", "body", "created_at"],
-    order: [["created_at", "DESC"]],
+router.get('/', withAuth, async (req, res) => {
+  console.log('-------GETTING POSTS------');
+  await Post.findAll({
+    attributes: ['id', 'title', 'body', 'created_at'],
+    order: [['created_at', 'DESC']],
     include: [
       {
         model: Comment,
-        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
+        attributes: ['id', 'comment_body', 'user_id', 'post_id', 'created_at'],
         include: {
           model: User,
-          attributes: ["username"],
+          attributes: ['username'],
         },
       },
       {
         model: User,
-        attributes: ["username"],
+        attributes: ['username'],
       },
     ],
   })
-
     .then((dbPostData) => res.json(dbPostData))
     .catch((err) => {
       console.log(err);
@@ -31,91 +29,91 @@ router.get("/", (req, res) => {
     });
 });
 
-//GET api/posts/:id
-
-router.get("/:id", (req, res) => {
-  Post.findOne({
+router.get('/:id', withAuth, async (req, res) => {
+  await Post.findOne({
     where: {
       id: req.params.id,
     },
-    attributes: ["id", "title", "body", "created_at"],
+    attributes: ['id', 'title', 'body', 'created_at'],
     include: [
       {
         model: Comment,
-        attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
+        attributes: ['id', 'comment_body', 'user_id', 'post_id', 'created_at'],
         include: {
           model: User,
-          attributes: ["username"],
+          attributes: ['username'],
         },
       },
-
       {
         model: User,
-        attributes: ["username"],
+        attributes: ['username'],
       },
     ],
   })
     .then((dbPostData) => {
       if (!dbPostData) {
-        res.status(404).json({ message: "No post found with this id" });
+        res.status(404).json({ message: 'Post does not exist' });
         return;
       }
       res.json(dbPostData);
     })
-      .catch((err) => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
-router.post("/", withAuth, async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
   const body = req.body;
 
   try {
-    const newPost = await Post.create({ ...body, user_id: req.session.user_id });
+    const newPost = await Post.create({
+      ...body,
+      user_id: req.session.user_id,
+    });
     res.json(newPost);
   } catch (err) {
-     res.status(500).json(err);
-  }
-});
-
-router.put("/:id", withAuth, async (req, res) => {
-  
-    try {
-      const [affectedRows] = await Post.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    });
-
-    if (affectedRows > 0) {
-      res.status(200).end();
-    } else {
-      res.status(404).end();
-    }
-  } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
 
-router.delete("/:id", withAuth, async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
   try {
-    const [affectedRows] = Post.destroy({
+    const [affectedRows] = await Post.update(req.body, {
       where: {
         id: req.params.id,
       },
     });
 
-   
     if (affectedRows > 0) {
       res.status(200).end();
     } else {
       res.status(404).end();
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
+  }
+});
 
-}
+router.delete('/:id', withAuth, async (req, res) => {
+  try {
+    const [affectedRows] = await Post.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (affectedRows > 0) {
+      res.status(200).end();
+    } else {
+      res.status(404).end();
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;

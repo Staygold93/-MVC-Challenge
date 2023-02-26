@@ -1,23 +1,30 @@
-const { Post } = require("../models");
+const { Post } = require('../models');
 
-const postdata = [
+const postData = [
   {
-    title: "What to do when you get stuck?",
-    body: "First things first... step aweay from your computer for 5-10min",
+    title: 'The best site to visit for beginner PC builders',
+    body: "Go to PC Part Picker. You won't regret it.",
+    user_id: 1,
+  },
+
+  {
+    title: 'AMD or Intel?',
+    body: "Intel is killing it with their 13th gen processors, and for the first time; they're more affordable as well!",
     user_id: 3,
   },
+
   {
-    title: "Best places to figure out your code",
-    body: "Google Google Google! Can be your best friend and worst enemy. The important thing to master is, how to search for your problem.",
+    title: 'Ghost of Tsushima',
+    body: "Can't wait for it to come on PC. Sony so far has been killing it with bringing their exclusives to PC!",
     user_id: 2,
   },
+
   {
-    title: "How to ace your next interview!",
-    body: "Confidence is key!! But also dont be arogant!",
+    title: "Nvidia prices omg -_-'",
+    body: 'I feel like Nvidia are living in their own world. Who in their right mind would pay $2000 for a graphics card. Intel is showing them upp with their Arc series',
     user_id: 1,
   },
 ];
 
-const seedPosts = () => Post.bulkCreate(postdata);
-
+const seedPosts = async () => await Post.bulkCreate(postData);
 module.exports = seedPosts;
